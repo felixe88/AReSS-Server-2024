@@ -1,0 +1,111 @@
+<?php
+declare(strict_types=1);
+
+namespace App\Controller;
+use Cake\Http\Response;
+
+/**
+ * TumoriUteroCorpoCasi Controller
+ *
+ * @property \App\Model\Table\TumoriUteroCorpoCasiTable $TumoriUteroCorpoCasi
+ * @method \App\Model\Entity\TumoriUteroCorpoCasi[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ */
+class TumoriUteroCorpoCasiController extends AppController
+{
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
+    {
+        $this->paginate = ['limit' => 80000,
+        'maxLimit' => 100000];
+
+        $tumoriUteroCorpoCasi = $this->paginate($this->TumoriUteroCorpoCasi);
+
+        $response = new Response();
+        $response = $response->withType('application/json')
+                             ->withStringBody(json_encode(compact('tumoriUteroCorpoCasi')));
+    }
+
+    /**
+     * View method
+     *
+     * @param string|null $id Tumori Utero Corpo Casi id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $tumoriUteroCorpoCasi = $this->TumoriUteroCorpoCasi->get($id, [
+            'contain' => [],
+        ]);
+
+        $this->set(compact('tumoriUteroCorpoCasi'));
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $tumoriUteroCorpoCasi = $this->TumoriUteroCorpoCasi->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $tumoriUteroCorpoCasi = $this->TumoriUteroCorpoCasi->patchEntity($tumoriUteroCorpoCasi, $this->request->getData());
+            if ($this->TumoriUteroCorpoCasi->save($tumoriUteroCorpoCasi)) {
+                $this->Flash->success(__('The tumori utero corpo casi has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The tumori utero corpo casi could not be saved. Please, try again.'));
+        }
+        $this->set(compact('tumoriUteroCorpoCasi'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Tumori Utero Corpo Casi id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $tumoriUteroCorpoCasi = $this->TumoriUteroCorpoCasi->get($id, [
+            'contain' => [],
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $tumoriUteroCorpoCasi = $this->TumoriUteroCorpoCasi->patchEntity($tumoriUteroCorpoCasi, $this->request->getData());
+            if ($this->TumoriUteroCorpoCasi->save($tumoriUteroCorpoCasi)) {
+                $this->Flash->success(__('The tumori utero corpo casi has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The tumori utero corpo casi could not be saved. Please, try again.'));
+        }
+        $this->set(compact('tumoriUteroCorpoCasi'));
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Tumori Utero Corpo Casi id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $tumoriUteroCorpoCasi = $this->TumoriUteroCorpoCasi->get($id);
+        if ($this->TumoriUteroCorpoCasi->delete($tumoriUteroCorpoCasi)) {
+            $this->Flash->success(__('The tumori utero corpo casi has been deleted.'));
+        } else {
+            $this->Flash->error(__('The tumori utero corpo casi could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+}
