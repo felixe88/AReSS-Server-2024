@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Http\Response;
+use App\Service\ComuniService;
 
 class ComuniController extends AppController
 {
@@ -70,25 +71,39 @@ class ComuniController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    // public function query()
+    // {
+    //     $results = $this->Comuni->find()
+    //         ->select([
+    //             'Comuni.Descrizione',
+    //             'Distretti.Descrizione',
+    //             'Asl.Descrizione',
+    //             'Asl.IDAsl',
+    //             'ComunePopolazioneTumoriTest.sesso',
+    //             'ComunePopolazioneTumoriTest.popolazione'
+    //         ])
+    //         ->contain(['Distretti.Asl',
+    //             'ComunePopolazioneTumoriTest'
+    //         ])
+    //         ->toArray();
+
+    //     $response = new Response();
+    //     $response = $response->withType('application/json')
+    //         ->withStringBody(json_encode(compact('results')));
+
+    //     return $response;
+    // }
+
+    
     public function query()
     {
-        $results = $this->Comuni->find()
-            ->select([
-                'Comuni.Descrizione',
-                'Distretti.Descrizione',
-                'Asl.Descrizione',
-                'Asl.IDAsl',
-                'ComunePopolazioneTumoriTest.sesso',
-                'ComunePopolazioneTumoriTest.popolazione'
-            ])
-            ->contain(['Distretti.Asl',
-                'ComunePopolazioneTumoriTest'
-            ])
-            ->toArray();
+        $comuniService = new ComuniService($this->Comuni);
+
+        $allComuniData = $comuniService->getAllComuniData();
 
         $response = new Response();
         $response = $response->withType('application/json')
-            ->withStringBody(json_encode(compact('results')));
+            ->withStringBody(json_encode(compact('allComuniData')));
 
         return $response;
     }
