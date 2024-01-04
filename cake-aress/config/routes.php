@@ -33,4 +33,9 @@ return function (RouteBuilder $routes): void {
 
         $builder->fallbacks();
     });
+
+    $routes->scope('/', function (RouteBuilder $routes) {
+        $routes->setExtensions(['json']); 
+        $routes->post('/chart1/handleFilters', ['controller' => 'Chart1', 'action' => 'handleFilters']);
+    });
 };

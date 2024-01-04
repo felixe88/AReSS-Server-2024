@@ -27,8 +27,9 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use App\Routing\CorsMiddleware;
-// use Ozee31\CakephpCors\Middleware\CorsMiddleware;
+// use App\Routing\CorsMiddleware;
+use Cake\Http\Middleware\CorsMiddleware;
+//use Ozee31\CakephpCors\Middleware\CorsMiddleware;
 
 /**
  * Application setup class.
@@ -100,7 +101,13 @@ class Application extends BaseApplication
             ->add(new BodyParserMiddleware())
 
 
-            ->add(new CorsMiddleware())
+            ->add(new CorsMiddleware([
+                'origin' => 'http://localhost:3000',
+                'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
+                'headers' => ['Content-Type'],
+                'credentials' => true,
+                'cache' => 86400
+            ]))
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware

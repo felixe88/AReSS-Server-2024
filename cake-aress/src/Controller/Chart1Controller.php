@@ -25,6 +25,21 @@ class Chart1Controller extends AppController
         return $response;
     }
 
+    public function handleFilters() {
+        $filtri = $this->request->getData();
+
+        $this->set([
+            'success' => true,
+            '_serialize' => ['success']
+        ]);
+
+        $response = new Response();
+        $response = $response->withType('application/json')
+            ->withStringBody(json_encode(compact('filtri')));
+
+        return $response;
+    }
+
     private function estraiTotale($colonna, $riferimenti, $data)
     {
         $container = [];
