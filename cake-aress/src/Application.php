@@ -27,8 +27,8 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use App\Routing\CorsMiddleware;
-// use Ozee31\CakephpCors\Middleware\CorsMiddleware;
+use App\Routing\Middleware\CorsMiddleware;
+// use Cake\Http\Middleware\CorsMiddleware;
 
 /**
  * Application setup class.
@@ -66,7 +66,6 @@ class Application extends BaseApplication
         }
 
         // Load more plugins here
-        // $this->addPlugin('Cors');
     }
 
     /**
@@ -80,9 +79,8 @@ class Application extends BaseApplication
         $middlewareQueue
             // Catch any exceptions in the lower layers,
             // and make an error page/response
-
-
             ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
+
             // Handle plugin/theme assets like CakePHP normally does.
             ->add(new AssetMiddleware([
                 'cacheTime' => Configure::read('Asset.cacheTime'),
@@ -99,8 +97,23 @@ class Application extends BaseApplication
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
 
-
-            ->add(new CorsMiddleware())
+            // ->add(new CorsMiddleware([
+            //     'origin' => 'http://localhost:3000',
+            //     'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
+            //     // 'headers' => ['Content-Type'],
+            //     'headers.allow' => ['Content-Type', 'Authorization'],
+            //     'headers.allowCredentials' => true,
+            //     // 'credentials' => true,
+            //     // 'cache' => 86400
+            // ]))
+            ->add(new CorsMiddleware(
+                [
+                'origin' => 'http://localhost:3000',
+                'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
+                'headers' => ['Content-Type', 'Access-Control-Allow-Origin'],
+                'headers.allowCredentials' => true,
+            ]
+            ))
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
