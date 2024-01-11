@@ -106,14 +106,20 @@ class Application extends BaseApplication
             //     // 'credentials' => true,
             //     // 'cache' => 86400
             // ]))
-            ->add(new CorsMiddleware(
-                [
-                'origin' => 'http://localhost:3000',
-                'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
-                'headers' => ['Content-Type', 'Access-Control-Allow-Origin'],
+            // ->add(new CorsMiddleware(
+            //     [
+            //     'origin' => 'http://localhost:3000',
+            //     'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
+            //     'headers' => ['Content-Type', 'Access-Control-Allow-Origin'],
+            //     'headers.allowCredentials' => true,
+            // ]))
+            ->add(new CorsMiddleware([
+                'origin' => '*',
+                'methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+                'headers.allow' => ['Content-Type', 'Authorization'],
                 'headers.allowCredentials' => true,
-            ]
-            ))
+                // 'cache' => 86400 (opzionale, se vuoi specificare il tempo di caching)
+            ]))
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware

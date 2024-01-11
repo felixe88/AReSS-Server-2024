@@ -38,6 +38,8 @@ class PatologieTable extends Table
         parent::initialize($config);
 
         $this->setTable('patologie');
+
+        $this->setPrimaryKey('IDPatologia');
     }
 
     /**

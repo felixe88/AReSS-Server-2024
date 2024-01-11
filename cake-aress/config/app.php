@@ -76,6 +76,14 @@ return [
      */
     'Security' => [
         'salt' => env('SECURITY_SALT'),
+
+        'Cors' => [
+            'allowOrigin' => ['*'],
+            'allowMethods' => ['GET', 'POST', 'PUT', 'DELETE'],
+            'allowHeaders' => ['*'],
+        ],
+
+        
     ],
 
     /*
